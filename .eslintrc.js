@@ -16,11 +16,30 @@ module.exports = {
     'html'
   ],
   'rules': {
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'indent': [
+      'error', 4,
+  ],
+  'comma-dangle': [
+    'error', 'always',
+  ],
+'array-bracket-newline': [
+  'error', {
+      minItems: 1,
+  },
+],
+'object-curly-newline': [
+  'error', {
+      minProperties: 1,
+  },
+],
+'object-property-newline': [
+  'error', {
+      allowAllPropertiesOnSameLine: false,
+  },
+],
+
+'semi': [
+  'error', 'always',
+],
   }
 }
