@@ -15,6 +15,9 @@ export default new Vuex.Store({
 
     state: {
         questionList: [],
+        markList: [],
+        topicList: [],
+        tagList: [],
     },
     getters: {
         questionMap (state) {
@@ -23,8 +26,19 @@ export default new Vuex.Store({
                 return obj;
             }, {});
         },
+        topicMap (state) {
+            return state.topicList.reduce((obj, item) => {
+                obj[item._id] = item;
+                return obj;
+            }, {});
+        },
+        tagMap (state) {
+            return state.tagList.reduce((obj, item) => {
+                obj[item._id] = item;
+                return obj;
+            }, {});
+        },
     },
-
     mutations: {},
     actions: {},
 });
