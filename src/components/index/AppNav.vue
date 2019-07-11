@@ -57,7 +57,7 @@ export default {
             const list = json.stat_status_pairs.map((item) => {
                 const data = {};
                 const stat = item.stat;
-                data._id = '' + stat.frontend_question_id;
+                data._id = stat.frontend_question_id;
                 data.title = stat.question__title;
                 data.title_slug = stat.question__title_slug;
                 data.difficulty = item.difficulty.level;
@@ -67,7 +67,7 @@ export default {
                 return data;
             }).filter((item) => {
                 return !this.$store.getters.questionMap[item._id];
-            });
+            }).sort((a,b)=>{+a._id-b._id})
 
             if (list.length) {
                 QuestionDB.insert(list, (err, newDocs) => {
