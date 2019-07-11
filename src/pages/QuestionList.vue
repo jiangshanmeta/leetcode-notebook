@@ -33,7 +33,7 @@
         <el-pagination
             :current-page="currentPage"
             :page-sizes="[100, 200, 300, 400]"
-            :page-size="50"
+            :page-size="pageSize"
             layout="total, prev, pager, next"
             :total="total"
             @current-change="handleCurrentChange"
@@ -50,10 +50,15 @@ import {
     statusEnums,
 } from '@/enums';
 
+import MarkFrom from '@/components/common/MarkFrom';
+
 export default {
     name: 'QuestionList',
     config: {
         statusEnums,
+    },
+    components: {
+        MarkFrom,
     },
     data () {
         return {
@@ -63,6 +68,7 @@ export default {
             questionList: [],
             currentPage: 1,
             total: 0,
+            pageSize: 50,
         };
     },
     watch: {
@@ -74,18 +80,71 @@ export default {
                 filterNo: this.filterNo,
                 filterTitle: this.filterTitle,
                 filterStatus: this.filterStatus,
-                currentPage: this.currentPage,
             };
-        }, this.refreshListInfo, {
+        }, () => {
+            this.currentPage = 1;
+            this.refreshListInfo();
+        }, {
             immediate: true,
         });
     },
     methods: {
         handleCurrentChange (currentPage) {
             this.currentPage = currentPage;
+            this.refreshListInfo();
         },
-        refreshListInfo (query) {
-            console.log(query, QuestionDB);
+        refreshListInfo () {
+            const dbQuery = {};
+            if (this.filterNo !== 0) {
+                dbQuery['_id'] = {
+                    $regex: new RegExp('' + this.filterNo),
+                };
+            }
+
+            if (this.filterTitle) {
+                dbQuery['$or'] = [
+                    {
+                        title: {
+                            $regex: new RegExp(this.filterTitle),
+                        },
+                    },
+                    {
+                        title_slug: {
+                            $regex: new RegExp(this.filterTitle),
+                        },
+                    },
+                ];
+            }
+
+            if (this.filterStatus.length) {
+                dbQuery['status'] = {
+                    $in: this.filterStatus,
+                };
+            }
+
+            QuestionDB.count(dbQuery, (err, count) => {
+                if (err) {
+                    return this.$message({
+                        type: 'warning',
+                        message: 'count err',
+                    });
+                }
+                this.total = count;
+            });
+
+            QuestionDB
+                .find(dbQuery)
+                .skip((this.currentPage - 1) * this.pageSize)
+                .limit(this.pageSize)
+                .exec((err, docs) => {
+                    if (err) {
+                        return this.$message({
+                            type: 'warning',
+                            message: 'getList err',
+                        });
+                    }
+                    this.questionList = docs;
+                });
         },
     },
 };
