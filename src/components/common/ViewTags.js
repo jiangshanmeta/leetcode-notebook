@@ -15,14 +15,13 @@ export default {
     }) {
         const tags = props.tags;
         const tagMap = parent.$store.getters.tagMap;
-
         return (
             <div>
                 {tags.map((tag) => {
                     return (
                         <el-tag key={tag}>
                             <router-link to={`/TagDetail/${tag}`}>
-                                {tagMap[tag].name}
+                                {tagMap[tag] && tagMap[tag].name}
                             </router-link>
                         </el-tag>
                     );

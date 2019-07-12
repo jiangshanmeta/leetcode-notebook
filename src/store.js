@@ -2,17 +2,14 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import {
-    createPersistedState, createSharedMutations,
-} from 'vuex-electron';
+    QuestionDB,
+    TopicDB,
+    TagDB,
+} from '@/db';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    plugins: [
-        createPersistedState(),
-        createSharedMutations(),
-    ],
-
     state: {
         questionList: [],
         topicList: [],
@@ -38,6 +35,44 @@ export default new Vuex.Store({
             }, {});
         },
     },
-    mutations: {},
-    actions: {},
+    mutations: {
+        setTagList (state, list) {
+            state.tagList = list;
+        },
+        naive () {
+            console.log('naive');
+        },
+    },
+    actions: {
+        getTagList ({
+            state,
+        }) {
+            TagDB.find({}, (err, docs) => {
+                if (err) {
+                    return;
+                }
+                state.tagList = docs;
+            });
+        },
+        getTopicList ({
+            state,
+        }) {
+            TopicDB.find({}, (err, docs) => {
+                if (err) {
+                    return;
+                }
+                state.topicList = docs;
+            });
+        },
+        getQuestionList ({
+            state,
+        }) {
+            QuestionDB.find({}, (err, docs) => {
+                if (err) {
+                    return;
+                }
+                state.questionList = docs;
+            });
+        },
+    },
 });

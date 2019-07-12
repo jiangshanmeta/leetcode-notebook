@@ -10,17 +10,7 @@
             title="创建Topic"
             :visible.sync="dialogVisible"
         >
-            <el-form>
-                <el-form-item label="名称">
-                    <el-input v-model="name" />
-                </el-form-item>
-                <el-form-item label="tags">
-                    <SelectTag v-model="tags" />
-                </el-form-item>
-                <el-form-item label="link">
-                    <el-input v-model="link" />
-                </el-form-item>
-            </el-form>
+            <TopicForm :record="record" ref="topicForm"/>
             <footer
                 slot="footer"
             >
@@ -43,26 +33,25 @@ import {
     TopicDB,
 } from '@/db';
 
-import SelectTag from '@/components/common/SelectTag';
+import TopicForm from "@/components/common/TopicForm"
 
 export default {
-    components: {
-        SelectTag,
-    },
     data () {
         return {
             dialogVisible: false,
-            name: '',
-            tags: [],
-            link: '',
+            record:{
+                name:'',
+                tags: [],
+                link: '',
+            },
         };
+    },
+    components:{
+        TopicForm,
     },
     methods: {
         doCreateTopic () {
-            const data = {};
-            data.name = this.name;
-            data.tags = this.tags;
-            data.link = this.link;
+            const data = this.$refs.topicForm.getData();
 
             TopicDB.insert(data, (err, newDoc) => {
                 if (err) {
@@ -73,9 +62,12 @@ export default {
                 }
 
                 this.dialogVisible = false;
-                this.name = '';
-                this.tags = [];
-                this.link = '';
+                this.record = {
+                    name:'',
+                    tags: [],
+                    link: '',
+                };
+
                 this.$store.state.topicList = [
                     ...this.$store.state.topicList,
                     newDoc,

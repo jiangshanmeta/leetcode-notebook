@@ -15,39 +15,13 @@ import {
 
 export default {
     name: 'LeetcodeNotebook',
+    beforeCreate() {
+        this.$store.dispatch('getTagList')
+        this.$store.dispatch('getTopicList')
+        this.$store.dispatch('getQuestionList');
+    },
     components: {
         AppNav,
-    },
-    created () {
-        QuestionDB.find({}, (err, docs) => {
-            if (err) {
-                return this.$message({
-                    type: 'warning',
-                    message: '拉取本地题目数据失败',
-                });
-            }
-            this.$store.state.questionList = docs;
-        });
-
-        TopicDB.find({}, (err, docs) => {
-            if (err) {
-                return this.$message({
-                    type: 'warning',
-                    message: '拉取Topic列表失败',
-                });
-            }
-            this.$store.state.topicList = docs;
-        });
-
-        TagDB.find({}, (err, docs) => {
-            if (err) {
-                return this.$message({
-                    type: 'warning',
-                    message: '拉取Tag列表失败',
-                });
-            }
-            this.$store.state.tagList = docs;
-        });
     },
 };
 </script>
