@@ -1,67 +1,21 @@
 <template>
-    <el-menu
-        mode="horizontal"
-        :router="true"
-        class="app-menu"
+    <el-button
+        type="primary"
+        @click="doSyncQuestion"
     >
-        <el-menu-item index="/">
-            问题列表
-        </el-menu-item>
-        <el-menu-item index="/TopicList">
-            专题列表
-        </el-menu-item>
-        <el-menu-item index="/TagList">
-            标签列表
-        </el-menu-item>
-
-        <el-button
-            v-if="process.env.NODE_ENV === 'development'"
-            type="danger"
-            class="app-nav-btn"
-            @click="init"
-        >
-            初始化
-        </el-button>
-
-        <el-button
-            type="primary"
-            class="app-nav-btn"
-            @click="doSyncQuestion"
-        >
-            同步题目
-        </el-button>
-    </el-menu>
+        同步题目
+    </el-button>
 </template>
 
 <script>
 import {
     QuestionDB,
-    TopicDB,
-    TagDB,
 } from '@/db';
+
 const https = require('https');
 
-export default {
-    name: 'AppNav',
-    config:{
-        process:process,
-    },
+export default{
     methods: {
-        init () {
-            QuestionDB.remove({}, {
-                multi: true,
-            });
-            this.$store.state.questionList = [];
-            TopicDB.remove({}, {
-                multi: true,
-            });
-            this.$store.state.topicList = [];
-            TagDB.remove({}, {
-                multi: true,
-            });
-            this.$store.state.tagList = [];
-        },
-
         doSyncQuestion () {
             new Promise((resolve) => {
                 https.get('https://leetcode.com/api/problems/all/', (res) => {
@@ -98,7 +52,7 @@ export default {
                 return data;
             }).filter((item) => {
                 return !this.$store.getters.questionMap[item._id];
-            }).sort((a, b) => { +a._id - b._id; });
+            }).sort((a, b) => a._id - b._id);
 
             if (list.length) {
                 QuestionDB.insert(list, (err, newDocs) => {
@@ -127,13 +81,5 @@ export default {
             }
         },
     },
-};
-</script>
-
-<style scoped>
-.app-nav-btn{
-    float:right;
-    margin-top:10px;
-    margin-right:15px;
 }
-</style>
+</script>

@@ -18,23 +18,23 @@
                     :key="item._id"
                 >
                     <td>
-                        <Status :status="item.status" />
+                        <ViewStatus :status="item.status" />
                     </td>
                     <td>{{ item._id }}</td>
                     <td>
-                        <span 
+                        <span
                             class="question-link"
                             @click="openQuestionLink(item.title_slug)"
-                            >{{ item.title }}</span>
+                        >{{ item.title }}</span>
                     </td>
                     <td>
-                        <Difficulty :difficulty="item.difficulty" />
+                        <ViewDifficulty :difficulty="item.difficulty" />
                     </td>
                     <td>
-                        <Tags :tags="item.tags" />
+                        <ViewTags :tags="item.tags" />
                     </td>
                     <td>
-                        <Topics :topics="item.topics" />
+                        <ViewTopics :topics="item.topics" />
                     </td>
                     <td>
                         <el-button
@@ -51,40 +51,54 @@
             title="标记题目"
             :visible.sync="dialogVisible"
         >
-            <MarkFrom v-if="curMarkQuestion" :record="curMarkQuestion"/>
-            <span slot="footer" class="dialog-footer">
+            <QuestionFrom
+                v-if="curMarkQuestion"
+                ref="questionForm"
+                :record="curMarkQuestion"
+            />
+            <span
+                slot="footer"
+                class="dialog-footer"
+            >
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="doMark">确 定</el-button>
+                <el-button
+                    type="primary"
+                    @click="doMark"
+                >确 定</el-button>
             </span>
         </el-dialog>
     </section>
 </template>
 
 <script>
-import Status from '@/components/common/Status';
-import Difficulty from '@/components/common/Difficulty';
-import Tags from '@/components/common/Tags';
-import Topics from '@/components/common/Topics';
-import MarkFrom from '@/components/common/MarkFrom';
+import ViewStatus from '@/components/common/ViewStatus';
+import ViewDifficulty from '@/components/common/ViewDifficulty';
+import ViewTags from '@/components/common/ViewTags';
+import ViewTopics from '@/components/common/ViewTopics';
+import QuestionFrom from '@/components/common/QuestionFrom';
 
-export default{
-    props:{
-        questionList:{
-            type:Array,
-            required:true,
+import {
+    QuestionDB,
+} from '@/db';
+
+export default {
+    components: {
+        ViewStatus,
+        ViewDifficulty,
+        ViewTags,
+        ViewTopics,
+        QuestionFrom,
+    },
+    props: {
+        questionList: {
+            type: Array,
+            required: true,
         },
     },
-    components: {
-        Status,
-        Difficulty,
-        Tags,
-        Topics,
-        MarkFrom,
-    },
-    data(){
+    data () {
         return {
-            dialogVisible:false,
-            curMarkQuestion:null,
+            dialogVisible: false,
+            curMarkQuestion: null,
         };
     },
     methods: {
@@ -92,14 +106,27 @@ export default{
             this.dialogVisible = true;
             this.curMarkQuestion = item;
         },
-        openQuestionLink(title_slug){
-            this.$electron.shell.openExternal(`https://leetcode.com/problems/${title_slug}/`)
+        openQuestionLink (title_slug) {
+            this.$electron.shell.openExternal(`https://leetcode.com/problems/${title_slug}/`);
         },
-        doMark(){
+        doMark () {
+            const data = this.$refs.questionForm.getData();
 
+            QuestionDB.update({
+                _id: data._id,
+            }, data, {}, (err) => {
+                if (err) {
+                    this.$message({
+                        type: 'warning',
+                        message: 'update question err',
+                    });
+                }
+                this.dialogVisible = false;
+                this.$emit('refresh');
+            });
         },
     },
-}
+};
 </script>
 
 <style scoped>

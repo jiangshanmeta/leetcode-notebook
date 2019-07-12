@@ -30,7 +30,10 @@
             </el-form-item>
         </el-form>
 
-        <Questions :questionList="questionList"/>
+        <Questions
+            :question-list="questionList"
+            @refresh="refreshListInfo"
+        />
 
         <el-pagination
             :current-page="currentPage"
@@ -52,14 +55,14 @@ import {
     statusEnums,
 } from '@/enums';
 
-import Questions from '@/components/common/Questions'
+import Questions from '@/components/common/Questions';
 
 export default {
     name: 'QuestionList',
     config: {
         statusEnums,
     },
-    components:{
+    components: {
         Questions,
     },
     data () {
@@ -152,4 +155,3 @@ export default {
     },
 };
 </script>
-

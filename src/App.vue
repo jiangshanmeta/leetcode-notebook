@@ -6,9 +6,11 @@
 </template>
 
 <script>
-import AppNav from '@/components/index/AppNav';
+import AppNav from '@/components/app/AppNav';
 import {
     QuestionDB,
+    TopicDB,
+    TagDB,
 } from '@/db';
 
 export default {
@@ -25,6 +27,26 @@ export default {
                 });
             }
             this.$store.state.questionList = docs;
+        });
+
+        TopicDB.find({}, (err, docs) => {
+            if (err) {
+                return this.$message({
+                    type: 'warning',
+                    message: '拉取Topic列表失败',
+                });
+            }
+            this.$store.state.topicList = docs;
+        });
+
+        TagDB.find({}, (err, docs) => {
+            if (err) {
+                return this.$message({
+                    type: 'warning',
+                    message: '拉取Tag列表失败',
+                });
+            }
+            this.$store.state.tagList = docs;
         });
     },
 };

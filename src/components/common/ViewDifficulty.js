@@ -11,7 +11,7 @@ const colorClassMap = {
 };
 
 export default {
-    name: 'Difficulty',
+    name: 'ViewDifficulty',
     functional: true,
     props: {
         difficulty: {

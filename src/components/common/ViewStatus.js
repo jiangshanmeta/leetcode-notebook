@@ -6,7 +6,7 @@ const statusClassMap = {
 };
 
 export default {
-    name: 'Status',
+    name: 'ViewStatus',
     functional: true,
     props: {
         status: {
