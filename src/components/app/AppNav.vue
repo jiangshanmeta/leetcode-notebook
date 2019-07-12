@@ -17,6 +17,7 @@
         </el-menu>
 
         <div class="app-nav-operator-container">
+            <CreateTag/>
             <SyncQuestion/>
             <Init/>
         </div>
@@ -26,6 +27,7 @@
 <script>
 import Init from "@/components/common/Init"
 import SyncQuestion from "@/components/common/SyncQuestion"
+import CreateTag from "@/components/common/CreateTag"
 
 
 export default {
@@ -33,6 +35,7 @@ export default {
     components:{
         Init,
         SyncQuestion,
+        CreateTag,
     },
 };
 </script>
