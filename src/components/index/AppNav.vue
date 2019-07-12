@@ -13,6 +13,15 @@
         <el-menu-item index="/TagList">
             标签列表
         </el-menu-item>
+
+        <el-button
+            type="danger"
+            class="app-nav-btn"
+            @click="init"
+        >
+            初始化
+        </el-button>
+
         <el-button
             type="primary"
             class="app-nav-btn"
@@ -32,6 +41,13 @@ const https = require('https');
 export default {
     name: 'AppNav',
     methods: {
+        init () {
+            QuestionDB.remove({}, {
+                multi: true,
+            });
+            this.$store.state.questionList = [];
+        },
+
         doSyncQuestion () {
             new Promise((resolve) => {
                 https.get('https://leetcode.com/api/problems/all/', (res) => {
@@ -67,7 +83,7 @@ export default {
                 return data;
             }).filter((item) => {
                 return !this.$store.getters.questionMap[item._id];
-            }).sort((a,b)=>{+a._id-b._id})
+            }).sort((a, b) => { +a._id - b._id; });
 
             if (list.length) {
                 QuestionDB.insert(list, (err, newDocs) => {

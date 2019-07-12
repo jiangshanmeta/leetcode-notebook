@@ -3,8 +3,8 @@
 * 问题列表
   * ~~拉取问题列表~~
   * ~~存储问题列表到本地~~
-  * 问题的状态 todo attempted solved naive naive意思是实现太烂
-  * 问题筛选(类似于leetcode的筛选 筛题目id 难度 状态) 考虑$nin Topic/Tag功能
+  * ~~问题的状态 todo attempted solved naive naive意思是实现太烂~~
+  * ~~问题筛选(类似于leetcode的筛选 筛题目id 难度 状态) 考虑$nin Topic/Tag功能~~
   * 展示与编辑Tag
   * 展示与编辑Topic
 * Topic

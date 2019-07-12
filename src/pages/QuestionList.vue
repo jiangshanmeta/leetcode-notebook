@@ -30,31 +30,7 @@
             </el-form-item>
         </el-form>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>状态</th>
-                    <th>题号</th>
-                    <th>标题</th>
-                    <th>难度</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr 
-                    v-for="item in questionList"
-                    :key="item._id"
-                >
-                    <td>
-                        <Status :status="item.status"/>
-                    </td>
-                    <td>{{item._id}}</td>
-                    <td>{{item.title}}</td>
-                    <td>
-                        <Difficulty :difficulty="item.difficulty"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <Questions :questionList="questionList"/>
 
         <el-pagination
             :current-page="currentPage"
@@ -76,19 +52,15 @@ import {
     statusEnums,
 } from '@/enums';
 
-import Status from "@/components/common/Status"
-import Difficulty from "@/components/common/Difficulty"
-import MarkFrom from '@/components/common/MarkFrom';
+import Questions from '@/components/common/Questions'
 
 export default {
     name: 'QuestionList',
     config: {
         statusEnums,
     },
-    components: {
-        Status,
-        Difficulty,
-        MarkFrom,
+    components:{
+        Questions,
     },
     data () {
         return {
@@ -176,6 +148,8 @@ export default {
                     this.questionList = docs;
                 });
         },
+
     },
 };
 </script>
+
