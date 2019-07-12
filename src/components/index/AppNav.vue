@@ -15,6 +15,7 @@
         </el-menu-item>
 
         <el-button
+            v-if="process.env.NODE_ENV === 'development'"
             type="danger"
             class="app-nav-btn"
             @click="init"
@@ -35,17 +36,30 @@
 <script>
 import {
     QuestionDB,
+    TopicDB,
+    TagDB,
 } from '@/db';
 const https = require('https');
 
 export default {
     name: 'AppNav',
+    config:{
+        process:process,
+    },
     methods: {
         init () {
             QuestionDB.remove({}, {
                 multi: true,
             });
             this.$store.state.questionList = [];
+            TopicDB.remove({}, {
+                multi: true,
+            });
+            this.$store.state.topicList = [];
+            TagDB.remove({}, {
+                multi: true,
+            });
+            this.$store.state.tagList = [];
         },
 
         doSyncQuestion () {
@@ -80,6 +94,7 @@ export default {
                 data.status = 0;
                 data.tags = [];
                 data.topics = [];
+                data.link = '';
                 return data;
             }).filter((item) => {
                 return !this.$store.getters.questionMap[item._id];

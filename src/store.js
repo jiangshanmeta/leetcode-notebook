@@ -15,7 +15,6 @@ export default new Vuex.Store({
 
     state: {
         questionList: [],
-        markList: [],
         topicList: [],
         tagList: [],
     },
