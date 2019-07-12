@@ -1,6 +1,5 @@
 <template>
     <el-button
-        type="primary"
         @click="doSyncQuestion"
     >
         同步题目
@@ -14,7 +13,7 @@ import {
 
 const https = require('https');
 
-export default{
+export default {
     methods: {
         doSyncQuestion () {
             new Promise((resolve) => {
@@ -81,5 +80,5 @@ export default{
             }
         },
     },
-}
+};
 </script>

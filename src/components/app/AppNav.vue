@@ -3,7 +3,6 @@
         <el-menu
             mode="horizontal"
             :router="true"
-            
         >
             <el-menu-item index="/">
                 Questions
@@ -17,25 +16,27 @@
         </el-menu>
 
         <div class="app-nav-operator-container">
-            <CreateTag/>
-            <SyncQuestion/>
-            <Init/>
+            <CreateTopic />
+            <CreateTag />
+            <SyncQuestion />
+            <Init />
         </div>
     </nav>
 </template>
 
 <script>
-import Init from "@/components/common/Init"
-import SyncQuestion from "@/components/common/SyncQuestion"
-import CreateTag from "@/components/common/CreateTag"
-
+import Init from '@/components/common/Init';
+import SyncQuestion from '@/components/common/SyncQuestion';
+import CreateTag from '@/components/common/CreateTag';
+import CreateTopic from '@/components/common/CreateTopic';
 
 export default {
     name: 'AppNav',
-    components:{
+    components: {
         Init,
         SyncQuestion,
         CreateTag,
+        CreateTopic,
     },
 };
 </script>

@@ -15,7 +15,7 @@ import {
     TagDB,
 } from '@/db';
 
-export default{
+export default {
     config: {
         process: process,
     },
@@ -35,5 +35,5 @@ export default{
             this.$store.state.tagList = [];
         },
     },
-}
+};
 </script>
