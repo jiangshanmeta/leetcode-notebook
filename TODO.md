@@ -10,7 +10,7 @@
 * Topic
   * ~~创建Topic~~
   * ~~Topic列表~~
-  * Topic详情 包含的问题 包含的Tag
+  * ~~Topic详情 包含的问题 包含的Tag~~
 * Tag
   * ~~创建Tag~~
   * ~~Tag列表~~
