@@ -18,18 +18,18 @@
                         <router-link
                             :to="`/TopicDetail/${item._id}`"
                         >
-                            {{item.name}}
+                            {{ item.name }}
                         </router-link>
                     </td>
                     <td>
-                        <ViewTags :tags="item.tags"/>
+                        <ViewTags :tags="item.tags" />
                     </td>
                     <td>
                         <span
                             class="topic-link"
                             @click="openTopicLink(item.link)"
                         >
-                            {{item.link}}
+                            {{ item.link }}
                         </span>
                     </td>
                     <td>
@@ -44,10 +44,10 @@
             </tbody>
         </table>
         <el-dialog
-            title="标记题目"
+            title="编辑Topic"
             :visible.sync="dialogVisible"
         >
-            <TopicForm 
+            <TopicForm
                 v-if="curEditTopic"
                 ref="topicForm"
                 :record="curEditTopic"
@@ -71,39 +71,39 @@
 </template>
 
 <script>
-import ViewTags from "@/components/common/ViewTags"
-import TopicForm from "@/components/common/TopicForm"
+import ViewTags from '@/components/common/ViewTags';
+import TopicForm from '@/components/common/TopicForm';
 
 import {
     TopicDB,
 } from '@/db';
 
 export default {
-    props:{
-        topics:{
-            type:Array,
-            required:true,
-        },
-    },
-    data() {
-        return {
-            dialogVisible:false,
-            curEditTopic:null,
-        };
-    },
-    components:{
+    components: {
         ViewTags,
         TopicForm,
+    },
+    props: {
+        topics: {
+            type: Array,
+            required: true,
+        },
+    },
+    data () {
+        return {
+            dialogVisible: false,
+            curEditTopic: null,
+        };
     },
     methods: {
         openTopicLink (link) {
             this.$electron.shell.openExternal(link);
         },
-        editTopic(item){
+        editTopic (item) {
             this.dialogVisible = true;
             this.curEditTopic = item;
         },
-        doEditTopic(){
+        doEditTopic () {
             const data = this.$refs.topicForm.getData();
 
             TopicDB.update({
@@ -116,11 +116,11 @@ export default {
                     });
                 }
                 this.dialogVisible = false;
-                this.$store.dispatch('getTopicList')
+                this.$store.dispatch('getTopicList');
             });
-        }
+        },
     },
-}
+};
 </script>
 
 <style scoped>

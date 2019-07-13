@@ -10,7 +10,10 @@
             title="创建Topic"
             :visible.sync="dialogVisible"
         >
-            <TopicForm :record="record" ref="topicForm"/>
+            <TopicForm
+                ref="topicForm"
+                :record="record"
+            />
             <footer
                 slot="footer"
             >
@@ -33,21 +36,21 @@ import {
     TopicDB,
 } from '@/db';
 
-import TopicForm from "@/components/common/TopicForm"
+import TopicForm from '@/components/common/TopicForm';
 
 export default {
+    components: {
+        TopicForm,
+    },
     data () {
         return {
             dialogVisible: false,
-            record:{
-                name:'',
+            record: {
+                name: '',
                 tags: [],
                 link: '',
             },
         };
-    },
-    components:{
-        TopicForm,
     },
     methods: {
         doCreateTopic () {
@@ -63,7 +66,7 @@ export default {
 
                 this.dialogVisible = false;
                 this.record = {
-                    name:'',
+                    name: '',
                     tags: [],
                     link: '',
                 };

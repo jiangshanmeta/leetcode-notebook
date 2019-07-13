@@ -3,21 +3,11 @@
         <el-form-item label="名称">
             <el-input v-model="localRecord.name" />
         </el-form-item>
-        <el-form-item label="tags">
-            <SelectTag v-model="localRecord.tags" />
-        </el-form-item>
-        <el-form-item label="link">
-            <el-input v-model="localRecord.link" />
-        </el-form-item>
     </el-form>
 </template>
 
 <script>
-import SelectTag from '@/components/common/SelectTag';
 export default {
-    components: {
-        SelectTag,
-    },
     props: {
         record: {
             type: Object,

@@ -10,11 +10,10 @@
             title="创建Tag"
             :visible.sync="dialogVisible"
         >
-            <el-form>
-                <el-form-item label="名称">
-                    <el-input v-model="name" />
-                </el-form-item>
-            </el-form>
+            <TagForm
+                ref="tagForm"
+                :record="record"
+            />
             <footer
                 slot="footer"
             >
@@ -33,21 +32,28 @@
 </template>
 
 <script>
+import TagForm from '@/components/common/TagForm';
+
 import {
     TagDB,
 } from '@/db';
 
 export default {
+    components: {
+        TagForm,
+    },
     data () {
         return {
             dialogVisible: false,
-            name: '',
+            record: {
+                name: '',
+            },
         };
     },
     methods: {
         doCreateTag () {
-            const data = {};
-            data.name = this.name;
+            const data = this.$refs.tagForm.getData();
+
             TagDB.insert(data, (err, newDoc) => {
                 if (err) {
                     return this.$message({
@@ -57,7 +63,9 @@ export default {
                 }
 
                 this.dialogVisible = false;
-                this.name = '';
+                this.record = {
+                    name: '',
+                };
                 this.$store.state.tagList = [
                     ...this.$store.state.tagList,
                     newDoc,

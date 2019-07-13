@@ -7,21 +7,16 @@
 
 <script>
 import AppNav from '@/components/app/AppNav';
-import {
-    QuestionDB,
-    TopicDB,
-    TagDB,
-} from '@/db';
 
 export default {
     name: 'LeetcodeNotebook',
-    beforeCreate() {
-        this.$store.dispatch('getTagList')
-        this.$store.dispatch('getTopicList')
-        this.$store.dispatch('getQuestionList');
-    },
     components: {
         AppNav,
+    },
+    beforeCreate () {
+        this.$store.dispatch('getTagList');
+        this.$store.dispatch('getTopicList');
+        this.$store.dispatch('getQuestionList');
     },
 };
 </script>

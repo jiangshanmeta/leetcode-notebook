@@ -9,9 +9,9 @@
   * ~~展示与编辑Topic~~
 * Topic
   * ~~创建Topic~~
-  * Topic列表
+  * ~~Topic列表~~
   * Topic详情 包含的问题 包含的Tag
 * Tag
   * ~~创建Tag~~
-  * Tag列表
+  * ~~Tag列表~~
   * Tag详情 包含的问题 包含的Topic
