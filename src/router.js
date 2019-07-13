@@ -27,14 +27,16 @@ export default new Router({
             component: TagList,
         },
         {
-            path: '/TagDetail/:id',
+            path: '/TagDetail/:tag',
             name: 'TagDetail',
             component: TagDetail,
+            props: true,
         },
         {
-            path: '/TopicDetail/:id',
+            path: '/TopicDetail/:topic',
             name: 'TopicDetail',
             component: TopicDetail,
+            props: true,
         },
         {
             path: '*',

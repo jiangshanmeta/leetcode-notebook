@@ -35,14 +35,7 @@ export default new Vuex.Store({
             }, {});
         },
     },
-    mutations: {
-        setTagList (state, list) {
-            state.tagList = list;
-        },
-        naive () {
-            console.log('naive');
-        },
-    },
+    mutations: {},
     actions: {
         getTagList ({
             state,

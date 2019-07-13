@@ -1,6 +1,6 @@
 <template>
     <main>
-        TagList
+        <h1>TagList</h1>
         <Tags :tags="$store.state.tagList" />
     </main>
 </template>

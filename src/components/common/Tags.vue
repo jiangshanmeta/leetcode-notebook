@@ -12,7 +12,11 @@
                     v-for="item in tags"
                     :key="item._id"
                 >
-                    <td>{{ item.name }}</td>
+                    <td>
+                        <router-link :to="`/TagDetail/${item._id}`">
+                            {{ item.name }}
+                        </router-link>
+                    </td>
                     <td>
                         <el-button
                             size="small"

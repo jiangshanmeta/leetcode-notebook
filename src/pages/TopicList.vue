@@ -1,5 +1,6 @@
 <template>
     <main>
+        <h1>TopicList</h1>
         <Topics :topics="$store.state.topicList" />
     </main>
 </template>
