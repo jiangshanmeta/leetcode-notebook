@@ -3,10 +3,16 @@
         <h1>{{ tagInfo.name }}</h1>
 
         <h2>相关问题</h2>
-        <Questions :question-list="questionList" />
+        <Questions
+            :question-list="questionList"
+            @refresh="getRelateQuestion"
+        />
 
         <h2>相关Topic</h2>
-        <Topics :topics="topicList" />
+        <Topics
+            :topics="topicList"
+            @refresh="getRelateTopic"
+        />
     </main>
 </template>
 
@@ -44,36 +50,42 @@ export default {
     watch: {
         tag: {
             handler () {
-                QuestionDB.find({
-                    tags: {
-                        $elemMatch: this.tag,
-                    },
-                }, (err, docs) => {
-                    if (err) {
-                        return this.$message({
-                            type: 'warning',
-                            message: 'tagDetail get question err',
-                        });
-                    }
-                    this.questionList = docs;
-                });
-
-                TopicDB.find({
-                    tags: {
-                        $elemMatch: this.tag,
-                    },
-                }, (err, docs) => {
-                    if (err) {
-                        return this.$message({
-                            type: 'warning',
-                            message: 'tagDetail get topics err',
-                        });
-                    }
-                    console.log(docs);
-                    this.topicList = docs;
-                });
+                this.getRelateQuestion();
+                this.getRelateTopic();
             },
             immediate: true,
+        },
+    },
+    methods: {
+        getRelateQuestion () {
+            QuestionDB.find({
+                tags: {
+                    $elemMatch: this.tag,
+                },
+            }, (err, docs) => {
+                if (err) {
+                    return this.$message({
+                        type: 'warning',
+                        message: 'tagDetail get question err',
+                    });
+                }
+                this.questionList = docs;
+            });
+        },
+        getRelateTopic () {
+            TopicDB.find({
+                tags: {
+                    $elemMatch: this.tag,
+                },
+            }, (err, docs) => {
+                if (err) {
+                    return this.$message({
+                        type: 'warning',
+                        message: 'tagDetail get topics err',
+                    });
+                }
+                this.topicList = docs;
+            });
         },
     },
 };

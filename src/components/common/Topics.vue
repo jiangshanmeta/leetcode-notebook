@@ -117,6 +117,7 @@ export default {
                 }
                 this.dialogVisible = false;
                 this.$store.dispatch('getTopicList');
+                this.$emit('refresh');
             });
         },
     },
