@@ -18,15 +18,10 @@
             </el-form-item>
 
             <el-form-item label="状态">
-                <el-checkbox-group v-model="filterStatus">
-                    <el-checkbox
-                        v-for="item in statusEnums"
-                        :key="item.value"
-                        :label="item.value"
-                    >
-                        {{ item.label }}
-                    </el-checkbox>
-                </el-checkbox-group>
+                <EditorArrayCheckbox
+                    v-model="filterStatus"
+                    :candidate="statusEnums"
+                />
             </el-form-item>
         </el-form>
 

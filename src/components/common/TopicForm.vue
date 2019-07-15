@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import SelectTag from '@/components/common/SelectTag';
+import SelectTag from '@/components/editors/SelectTag';
 export default {
     components: {
         SelectTag,

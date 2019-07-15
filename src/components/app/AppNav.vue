@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import Init from '@/components/common/Init';
-import SyncQuestion from '@/components/common/SyncQuestion';
-import CreateTag from '@/components/common/CreateTag';
-import CreateTopic from '@/components/common/CreateTopic';
+import Init from '@/components/app/Init';
+import SyncQuestion from '@/components/app/SyncQuestion';
+import CreateTag from '@/components/app/CreateTag';
+import CreateTopic from '@/components/app/CreateTopic';
 
 export default {
     name: 'AppNav',

@@ -1,29 +1,23 @@
 <template>
     <el-form>
         <el-form-item label="status">
-            <el-radio-group v-model="localRecord.status">
-                <el-radio
-                    v-for="item in statusEnums"
-                    :key="item.value"
-                    :label="item.value"
-                >
-                    {{ item.label }}
-                </el-radio>
-            </el-radio-group>
+            <EditorEnumRadio
+                v-model="localRecord.status"
+                :candidate="statusEnums"
+                labelfield="label"
+                valuefield="value"
+            />
         </el-form-item>
         <el-form-item label="tags">
             <SelectTag v-model="localRecord.tags" />
         </el-form-item>
         <el-form-item label="topics">
-            <el-checkbox-group v-model="localRecord.topics">
-                <el-checkbox
-                    v-for="item in this.$store.state.topicList"
-                    :key="item._id"
-                    :label="item._id"
-                >
-                    {{ item.name }}
-                </el-checkbox>
-            </el-checkbox-group>
+            <EditorArrayCheckbox
+                v-model="localRecord.topics"
+                :candidate="$store.state.topicList"
+                labelfield="name"
+                valuefield="_id"
+            />
         </el-form-item>
         <el-form-item label="link">
             <el-input v-model="localRecord.link" />
@@ -36,7 +30,7 @@ import {
     statusEnums,
 } from '@/enums';
 
-import SelectTag from '@/components/common/SelectTag';
+import SelectTag from '@/components/editors/SelectTag';
 
 export default {
     name: 'QuestionFrom',
