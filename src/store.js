@@ -40,31 +40,40 @@ export default new Vuex.Store({
         getTagList ({
             state,
         }) {
-            TagDB.find({}, (err, docs) => {
-                if (err) {
-                    return;
-                }
-                state.tagList = docs;
+            return new Promise((resolve) => {
+                TagDB.find({}, (err, docs) => {
+                    if (err) {
+                        return;
+                    }
+                    state.tagList = docs;
+                    resolve();
+                });
             });
         },
         getTopicList ({
             state,
         }) {
-            TopicDB.find({}, (err, docs) => {
-                if (err) {
-                    return;
-                }
-                state.topicList = docs;
+            return new Promise((resolve) => {
+                TopicDB.find({}, (err, docs) => {
+                    if (err) {
+                        return;
+                    }
+                    state.topicList = docs;
+                    resolve();
+                });
             });
         },
         getQuestionList ({
             state,
         }) {
-            QuestionDB.find({}, (err, docs) => {
-                if (err) {
-                    return;
-                }
-                state.questionList = docs;
+            return new Promise((resolve) => {
+                QuestionDB.find({}, (err, docs) => {
+                    if (err) {
+                        return;
+                    }
+                    state.questionList = docs;
+                    resolve();
+                });
             });
         },
     },

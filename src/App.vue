@@ -1,7 +1,10 @@
 <template>
     <div id="app">
         <AppNav />
-        <router-view class="app-main" />
+        <router-view
+            v-if="fetched"
+            class="app-main"
+        />
     </div>
 </template>
 
@@ -13,10 +16,19 @@ export default {
     components: {
         AppNav,
     },
-    beforeCreate () {
-        this.$store.dispatch('getTagList');
-        this.$store.dispatch('getTopicList');
-        this.$store.dispatch('getQuestionList');
+    data () {
+        return {
+            fetched: false,
+        };
+    },
+    created () {
+        Promise.all([
+            this.$store.dispatch('getTagList'),
+            this.$store.dispatch('getTopicList'),
+            this.$store.dispatch('getQuestionList'),
+        ]).then(() => {
+            this.fetched = true;
+        });
     },
 };
 </script>
