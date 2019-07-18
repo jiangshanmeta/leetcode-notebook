@@ -1,5 +1,6 @@
 'use strict';
-
+/* global __static */
+import path from 'path';
 import {
     app, protocol, BrowserWindow,
 } from 'electron';
@@ -32,6 +33,7 @@ function createWindow () {
         webPreferences: {
             nodeIntegration: true,
         },
+        icon: path.join(__static, 'icon.png'),
     });
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
