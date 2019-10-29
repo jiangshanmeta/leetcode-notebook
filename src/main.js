@@ -9,7 +9,7 @@ import store from './store';
 import EditorArrayCheckbox from '@/components/editors/EditorArrayCheckbox';
 import EditorEnumRadio from '@/components/editors/EditorEnumRadio';
 
-import 'bootstrap/dist/css/bootstrap-reboot.min.css';
+import 'normalize.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/table.css';

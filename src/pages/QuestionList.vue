@@ -96,9 +96,7 @@ export default {
         refreshListInfo () {
             const dbQuery = {};
             if (this.filterNo !== 0) {
-                dbQuery['_id'] = {
-                    $regex: new RegExp('' + this.filterNo),
-                };
+                dbQuery['_id'] = this.filterNo;
             }
 
             if (this.filterTitle) {
