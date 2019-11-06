@@ -2,6 +2,7 @@
     <nav class="app-nav">
         <el-menu
             mode="horizontal"
+            :default-active="$route.path"
             :router="true"
         >
             <el-menu-item index="/">
