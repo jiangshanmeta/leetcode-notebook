@@ -9,12 +9,7 @@ export const QuestionDB = new Datastore({
     filename: path.join(remote.app.getPath('userData'), '/question.db'),
 });
 
-export const TopicDB = new Datastore({
+export const ThemeDB = new Datastore({
     autoload: true,
-    filename: path.join(remote.app.getPath('userData'), '/topic.db'),
-});
-
-export const TagDB = new Datastore({
-    autoload: true,
-    filename: path.join(remote.app.getPath('userData'), '/tag.db'),
+    filename: path.join(remote.app.getPath('userData'), '/theme.db'),
 });

@@ -16,6 +16,10 @@ const https = require('https');
 export default {
     methods: {
         doSyncQuestion () {
+            this.$message({
+                type: 'success',
+                message: '正在获取题目列表',
+            });
             new Promise((resolve) => {
                 https.get('https://leetcode.com/api/problems/all/', (res) => {
                     res.setEncoding('utf8');
@@ -34,7 +38,13 @@ export default {
                 }).on('error', (e) => {
                     console.error(`出现错误: ${e.message}`);
                 });
-            }).then(this.updateDb);
+            }).then((json) => {
+                this.$message({
+                    type: 'success',
+                    message: '获取问题列表成功，正在写入本地',
+                });
+                this.updateDb(json);
+            });
         },
         updateDb (json) {
             const list = json.stat_status_pairs.map((item) => {
@@ -44,40 +54,24 @@ export default {
                 data.title = stat.question__title;
                 data.title_slug = stat.question__title_slug;
                 data.difficulty = item.difficulty.level;
-                data.status = 0;
-                data.tags = [];
-                data.topics = [];
-                data.link = '';
                 return data;
-            }).filter((item) => {
-                return !this.$store.getters.questionMap[item._id];
-            }).sort((a, b) => a._id - b._id);
+            });
 
-            if (list.length) {
-                QuestionDB.insert(list, (err, newDocs) => {
-                    if (err) {
-                        return this.$message({
-                            type: 'warning',
-                            message: '同步题目失败',
-                        });
-                    }
-
-                    this.$store.state.questionList = [
-                        ...this.$store.state.questionList,
-                        ...newDocs,
-                    ];
-
-                    this.$message({
-                        type: 'success',
-                        message: '同步题目成功',
+            QuestionDB.insert(list, (err, questionList) => {
+                if (err) {
+                    return this.$message({
+                        type: 'warning',
+                        message: '问题列表写入本地失败',
                     });
-                });
-            } else {
+                }
+
+                this.$store.commit('setQuestionList', questionList);
+
                 this.$message({
                     type: 'success',
-                    message: '暂无新题目',
+                    message: '同步题目成功',
                 });
-            }
+            });
         },
     },
 };

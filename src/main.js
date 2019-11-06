@@ -6,12 +6,10 @@ import ElementUI from 'element-ui';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import EditorArrayCheckbox from '@/components/editors/EditorArrayCheckbox';
-import EditorEnumRadio from '@/components/editors/EditorEnumRadio';
 
 import 'normalize.css';
-import '@fortawesome/fontawesome-free/css/all.css';
 import 'element-ui/lib/theme-chalk/index.css';
+import '@/assets/css/common.css';
 import '@/assets/css/table.css';
 import '@/assets/css/text.css';
 
@@ -22,8 +20,6 @@ Vue.use(VueConfigs, {
         'config',
     ],
 });
-Vue.component('EditorArrayCheckbox', EditorArrayCheckbox);
-Vue.component('EditorEnumRadio', EditorEnumRadio);
 
 Vue.config.productionTip = false;
 

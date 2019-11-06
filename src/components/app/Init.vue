@@ -1,6 +1,5 @@
 <template>
     <el-button
-        v-if="process.env.NODE_ENV === 'development'"
         type="danger"
         @click="init"
     >
@@ -11,28 +10,21 @@
 <script>
 import {
     QuestionDB,
-    TopicDB,
-    TagDB,
+    ThemeDB,
 } from '@/db';
 
 export default {
-    config: {
-        process: process,
-    },
     methods: {
         init () {
             QuestionDB.remove({}, {
                 multi: true,
             });
-            this.$store.state.questionList = [];
-            TopicDB.remove({}, {
+            this.$store.commit('setQuestionList', []);
+
+            ThemeDB.remove({}, {
                 multi: true,
             });
-            this.$store.state.topicList = [];
-            TagDB.remove({}, {
-                multi: true,
-            });
-            this.$store.state.tagList = [];
+            this.$store.commit('setThemeList', []);
         },
     },
 };

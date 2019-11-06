@@ -7,19 +7,15 @@
             <el-menu-item index="/">
                 Questions
             </el-menu-item>
-            <el-menu-item index="/TopicList">
-                Topics
-            </el-menu-item>
-            <el-menu-item index="/TagList">
-                Tags
+
+            <el-menu-item index="/themeList">
+                Themes
             </el-menu-item>
         </el-menu>
 
         <div class="app-nav-operator-container">
-            <CreateTopic />
-            <CreateTag />
             <SyncQuestion />
-            <Init />
+            <Init v-if="process.env.NODE_ENV === 'development'" />
         </div>
     </nav>
 </template>
@@ -27,16 +23,15 @@
 <script>
 import Init from '@/components/app/Init';
 import SyncQuestion from '@/components/app/SyncQuestion';
-import CreateTag from '@/components/app/CreateTag';
-import CreateTopic from '@/components/app/CreateTopic';
 
 export default {
     name: 'AppNav',
+    config: {
+        process: process,
+    },
     components: {
         Init,
         SyncQuestion,
-        CreateTag,
-        CreateTopic,
     },
 };
 </script>

@@ -1,17 +1,17 @@
 <template>
-    <div style="display:inline-block;padding-right:10px;">
+    <div>
         <el-button
-            type="primary"
+            type="success"
             @click="dialogVisible = true"
         >
-            创建Topic
+            创建Theme
         </el-button>
         <el-dialog
-            title="创建Topic"
+            title="创建Theme"
             :visible.sync="dialogVisible"
         >
-            <TopicForm
-                ref="topicForm"
+            <ThemeForm
+                ref="themeForm"
                 :record="record"
             />
             <footer
@@ -22,7 +22,7 @@
                 </el-button>
                 <el-button
                     type="primary"
-                    @click="doCreateTopic"
+                    @click="doCreateTheme"
                 >
                     确 定
                 </el-button>
@@ -32,49 +32,48 @@
 </template>
 
 <script>
-import {
-    TopicDB,
-} from '@/db';
+import ThemeForm from './ThemeForm';
 
-import TopicForm from '@/components/common/TopicForm';
+import {
+    ThemeDB,
+} from '@/db';
 
 export default {
     components: {
-        TopicForm,
+        ThemeForm,
     },
     data () {
         return {
             dialogVisible: false,
             record: {
                 name: '',
-                tags: [],
-                link: '',
+                questions: [],
             },
         };
     },
     methods: {
-        doCreateTopic () {
-            const data = this.$refs.topicForm.getData();
+        doCreateTheme () {
+            const data = this.$refs.themeForm.getData();
 
-            TopicDB.insert(data, (err, newDoc) => {
+            ThemeDB.insert(data, (err, newTheme) => {
                 if (err) {
-                    return this.$message({
+                    this.$message({
                         type: 'warning',
-                        message: '创建Topic err',
+                        message: '创建Theme失败',
                     });
+                    return;
                 }
 
                 this.dialogVisible = false;
                 this.record = {
                     name: '',
-                    tags: [],
-                    link: '',
+                    questions: [],
                 };
 
-                this.$store.state.topicList = [
-                    ...this.$store.state.topicList,
-                    newDoc,
-                ];
+                this.$store.commit('setThemeList', [
+                    ...this.$store.state.themeList,
+                    newTheme,
+                ]);
             });
         },
     },

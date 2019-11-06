@@ -23,9 +23,8 @@ export default {
     },
     created () {
         Promise.all([
-            this.$store.dispatch('getTagList'),
-            this.$store.dispatch('getTopicList'),
             this.$store.dispatch('getQuestionList'),
+            this.$store.dispatch('getThemeList'),
         ]).then(() => {
             this.fetched = true;
         });

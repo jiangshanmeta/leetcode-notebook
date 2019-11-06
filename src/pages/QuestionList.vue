@@ -16,13 +16,6 @@
                     style="width:180px;"
                 />
             </el-form-item>
-
-            <el-form-item label="状态">
-                <EditorArrayCheckbox
-                    v-model="filterStatus"
-                    :candidate="statusEnums"
-                />
-            </el-form-item>
         </el-form>
 
         <Questions
@@ -31,6 +24,7 @@
         />
 
         <el-pagination
+            style="text-align:center;"
             :current-page="currentPage"
             :page-sizes="[100, 200, 300, 400]"
             :page-size="pageSize"
@@ -50,7 +44,7 @@ import {
     statusEnums,
 } from '@/enums';
 
-import Questions from '@/components/common/Questions';
+import Questions from '@/components/question/Questions';
 
 export default {
     name: 'QuestionList',
@@ -64,7 +58,6 @@ export default {
         return {
             filterNo: 0,
             filterTitle: '',
-            filterStatus: [],
             questionList: [],
             currentPage: 1,
             total: 0,
@@ -79,7 +72,7 @@ export default {
             return {
                 filterNo: this.filterNo,
                 filterTitle: this.filterTitle,
-                filterStatus: this.filterStatus,
+
             };
         }, () => {
             this.currentPage = 1;
@@ -112,12 +105,6 @@ export default {
                         },
                     },
                 ];
-            }
-
-            if (this.filterStatus.length) {
-                dbQuery['status'] = {
-                    $in: this.filterStatus,
-                };
             }
 
             QuestionDB.count(dbQuery, (err, count) => {

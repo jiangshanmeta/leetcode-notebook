@@ -3,8 +3,7 @@ import Vuex from 'vuex';
 
 import {
     QuestionDB,
-    TopicDB,
-    TagDB,
+    ThemeDB,
 } from '@/db';
 
 Vue.use(Vuex);
@@ -12,8 +11,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         questionList: [],
-        topicList: [],
-        tagList: [],
+        themeList: [],
     },
     getters: {
         questionMap (state) {
@@ -22,56 +20,53 @@ export default new Vuex.Store({
                 return obj;
             }, {});
         },
-        topicMap (state) {
-            return state.topicList.reduce((obj, item) => {
+        themeMap (state) {
+            return state.themeList.reduce((obj, item) => {
                 obj[item._id] = item;
-                return obj;
+                return item;
             }, {});
         },
-        tagMap (state) {
-            return state.tagList.reduce((obj, item) => {
-                obj[item._id] = item;
+        questionThemeMap (state) {
+            return state.themeList.reduce((obj, theme) => {
+                const questions = theme.questions;
+                questions.forEach((questionId) => {
+                    (obj[questionId] || (obj[questionId] = [])).push(theme);
+                });
                 return obj;
             }, {});
         },
     },
-    mutations: {},
+    mutations: {
+        setQuestionList (state, questionList) {
+            state.questionList = questionList;
+        },
+        setThemeList (state, themeList) {
+            state.themeList = themeList;
+        },
+    },
     actions: {
-        getTagList ({
-            state,
-        }) {
-            return new Promise((resolve) => {
-                TagDB.find({}, (err, docs) => {
-                    if (err) {
-                        return;
-                    }
-                    state.tagList = docs;
-                    resolve();
-                });
-            });
-        },
-        getTopicList ({
-            state,
-        }) {
-            return new Promise((resolve) => {
-                TopicDB.find({}, (err, docs) => {
-                    if (err) {
-                        return;
-                    }
-                    state.topicList = docs;
-                    resolve();
-                });
-            });
-        },
         getQuestionList ({
-            state,
+            commit,
         }) {
             return new Promise((resolve) => {
-                QuestionDB.find({}, (err, docs) => {
+                QuestionDB.find({}, (err, questionList) => {
                     if (err) {
                         return;
                     }
-                    state.questionList = docs;
+                    commit('setQuestionList', questionList);
+                    resolve();
+                });
+            });
+        },
+        getThemeList ({
+            commit,
+        }) {
+            return new Promise((resolve) => {
+                ThemeDB.find({}, (err, themeList) => {
+                    if (err) {
+                        return;
+                    }
+                    commit('setThemeList', themeList);
                     resolve();
                 });
             });
