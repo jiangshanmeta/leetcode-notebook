@@ -3,6 +3,10 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+import {
+    getQuestionByIds,
+} from '@/server/question';
+
 export default new Vuex.Store({
     state: {
         questionList:[],
@@ -25,15 +29,28 @@ export default new Vuex.Store({
         addQuestion({
             state,getters,
         },questionList){
-            const copyQuestions = [
-                ...state.questionList,
-            ];
-            questionList = questionList.filter((question)=>{
-                return !getters.questionMap[question._id];
+            questionList.forEach((question)=>{
+                if(!getters.questionMap[question._id]){
+                    state.questionList.push(question);
+                }
             });
-            copyQuestions.push(...questionList);
-            state.questionList = copyQuestions;
+        },
+        getQuestionByIds({
+            getters,dispatch,
+        },questionIds){
+            const noCacheQuestionIds = questionIds.filter((questionId)=>{
+                return !getters.questionMap[questionId];
+            });
+
+            if(noCacheQuestionIds.length === 0){
+                return ;
+            }
+
+            getQuestionByIds(noCacheQuestionIds).then(({
+                questionList,
+            })=>{
+                dispatch('addQuestion',questionList);
+            });
         },
     },
-    modules: {},
 });

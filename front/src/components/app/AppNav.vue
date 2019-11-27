@@ -33,19 +33,19 @@ import {
 export default {
     name:'AppNav',
     methods:{
-        doSyncQuestions(){
+        async doSyncQuestions(){
             this.$message({
                 type:'success',
                 message:'正在请求题目',
             });
 
-            syncQuestions().then(()=>{
-                this.$store.commit('updateServerQuestionVersion');
-                this.$message({
-                    type:'success',
-                    message:'同步题目成功',
-                });
+            await syncQuestions();
+            this.$store.commit('updateServerQuestionVersion');
+            this.$message({
+                type:'success',
+                message:'同步题目成功',
             });
+
         },
     },
 };

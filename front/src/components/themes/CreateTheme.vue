@@ -55,17 +55,16 @@ export default {
         };
     },
     methods:{
-        doCreateTheme(){
+        async doCreateTheme(){
             const data = this.$refs.themeForm.getData();
-            doCreateTheme(data).then(()=>{
-                this.dialogVisible = false;
-                this.record = {
-                    name: '',
-                    questions: [],
-                    article:'',
-                };
-                this.$emit('update');
-            });
+            await doCreateTheme(data);
+            this.dialogVisible = false;
+            this.record = {
+                name: '',
+                questions: [],
+                article:'',
+            };
+            this.$emit('update');
         },
     },
 };

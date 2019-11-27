@@ -32,7 +32,7 @@
                 >
                     <td>{{ question._id }}</td>
                     <td>{{ question.title }}</td>
-                    <td>
+                    <td class="text-center">
                         <ViewDifficulty
                             :difficulty="question.difficulty"
                         />
@@ -51,7 +51,7 @@
         <ThemeDetail
             v-if="detailInfo"
             :visible.sync="detailDialogVisible"
-            :theme-info="detailInfo"
+            v-bind="detailInfo"
         />
 
         <el-pagination
@@ -123,6 +123,8 @@ export default {
                 questionList,
             } = await getQuestionList(data);
 
+            this.$store.dispatch('addQuestion',questionList);
+
             const questionIds = questionList.map(question=>question._id);
 
             const {
@@ -137,9 +139,7 @@ export default {
             },{});
 
             questionList.forEach((question)=>{
-                if(themeGroupByQuestion[question._id]){
-                    question.themes = themeGroupByQuestion[question._id];
-                }
+                question.themes = themeGroupByQuestion[question._id];
             });
 
             this.total = total;

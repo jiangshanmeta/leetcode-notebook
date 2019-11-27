@@ -17,8 +17,10 @@
                     :key="theme._id"
                 >
                     <td>{{ theme.name }}</td>
-                    <td>{{ theme.questions.length }}</td>
-                    <td>
+                    <td class="text-center">
+                        {{ theme.questions.length }}
+                    </td>
+                    <td class="text-center">
                         <el-button
                             type="success"
                             @click="showThemeDetail(theme)"
@@ -46,7 +48,7 @@
         <ThemeDetail
             v-if="detailInfo"
             :visible.sync="detailDialogVisible"
-            :theme-info="detailInfo"
+            v-bind="detailInfo"
         />
         
         <el-dialog

@@ -21,6 +21,10 @@
                     {{ $store.getters.questionMap[questionId].title }}
                     ({{ $store.getters.questionMap[questionId]._id }})
                 </div>
+                <div v-else>
+                    {{ questionId }}
+                </div>
+
                 <i
                     class="el-icon-close list-group-item-icon"
                     @click="deleteQuestion(questionId)"
@@ -33,7 +37,6 @@
 <script>
 import {
     getQuestionList,
-    getQuestionByIds,
 } from '@/server/question';
 
 export default {
@@ -51,15 +54,7 @@ export default {
     watch:{
         value:{
             handler(){
-                const noCacheQuestion = this.value.filter((questionId)=>{
-                    return !this.$store.getters.questionMap[questionId];
-                });
-                if(noCacheQuestion.length){
-                    getQuestionByIds(noCacheQuestion).then((json)=>{
-                        this.$store.dispatch('addQuestion',json.questionList);
-                    });
-                }
-
+                this.$store.dispatch('getQuestionByIds',this.value);
             },
             immediate:true,
         },
@@ -91,7 +86,9 @@ export default {
             }
         },
         deleteQuestion (questionId) {
-            const value = this.value.slice(0);
+            const value = [
+                ...this.value,
+            ];
             value.splice(value.indexOf(questionId), 1);
             this.$emit('input', value);
         },

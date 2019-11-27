@@ -6,23 +6,19 @@
         @update:visible="updateVisible"
     >
         <template v-slot:default>
-            <h2>{{ themeInfo.name }}</h2>
+            <h2>{{ name }}</h2>
             <ul class="list-group">
                 <li
-                    v-for="questionId in themeInfo.questions"
+                    v-for="questionId in canShowQuestions"
                     :key="questionId"
                     class="list-group-item"
                 >
-                    <div
-                        v-if="$store.getters.questionMap[questionId]"
-                    >
-                        {{ $store.getters.questionMap[questionId].title }}
-                        ( {{ $store.getters.questionMap[questionId]._id }} )
-                    </div>
+                    {{ $store.getters.questionMap[questionId].title }}
+                    ( {{ $store.getters.questionMap[questionId]._id }} )
                 </li>
             </ul>
             <div
-                v-html="mdHTML"
+                v-html="articleHTML"
             />
         </template>
         <template v-slot:footer>
@@ -34,14 +30,14 @@
 </template>
 
 <script>
-import {
-    getQuestionByIds,
-} from '@/server/question';
-
 import MarkdownIt from 'markdown-it';
-
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
+
+const md = new MarkdownIt({
+    highlight: function (str, lang) {
+        return `<pre class="language-${lang}">${Prism.highlight(str, Prism.languages[lang], lang)}</pre>`;
+    },
+});
 
 export default {
     props: {
@@ -49,9 +45,17 @@ export default {
             type: Boolean,
             required: true,
         },
-        themeInfo: {
-            type: Object,
-            required: true,
+        name:{
+            type:String,
+            required:true,
+        },
+        questions:{
+            type:Array,
+            required:true,
+        },
+        article:{
+            type:String,
+            required:true,
         },
     },
     data(){
@@ -59,30 +63,23 @@ export default {
             mdHTML:'',
         };
     },
+    computed:{
+        canShowQuestions(){
+            return this.questions.filter((questionId)=>{
+                return this.$store.getters.questionMap[questionId];
+            });
+        },
+        articleHTML(){
+            return md.render(this.article);
+        },
+    },
     watch:{
-        themeInfo:{
+        questions:{
             handler(){
-                const noCacheQuestionIds = this.themeInfo.questions.filter((questionId)=>{
-                    return !this.$store.getters.questionMap[questionId];
-                });
-
-                if(noCacheQuestionIds.length>0){
-                    getQuestionByIds(noCacheQuestionIds).then((json)=>{
-                        this.$store.dispatch('addQuestion',json.questionList);
-                    });
-                }
-
-                this.mdHTML = this.md.render(this.themeInfo.article);
+                this.$store.dispatch('getQuestionByIds',this.questions);
             },
             immediate:true,
         },
-    },
-    beforeCreate(){
-        this.md = new MarkdownIt({
-            highlight: function (str, lang) {
-                return `<pre class="language-${lang}">${Prism.highlight(str, Prism.languages[lang], lang)}</pre>`;
-            },
-        });
     },
     methods: {
         updateVisible (visible) {
