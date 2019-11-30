@@ -2,6 +2,8 @@
 
 力扣笔记本是为了对力扣上的题目进行专题整理而设计的。
 
+[本应用已经录制视频教程，发布在网易云课堂上](https://study.163.com/course/courseMain.htm?courseId=1209597911&share=2&shareId=480000001947591)
+
 前端采用：
 
 * Vue
